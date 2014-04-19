@@ -61,7 +61,7 @@ respawn limit 99 5
 kill timeout #{kill_timeout}
 
 script
-    cd #{current_path} && exec sudo -u #{node_user} NODE_ENV=#{node_env} #{app_environment} #{node_binary} #{current_path}/#{app_command} 2>> #{stderr_log_path} 1>> #{stdout_log_path}
+    cd #{current_path} NODE_ENV=#{node_env} #{app_environment} #{node_binary} #{current_path}/#{app_command} 2>> #{stderr_log_path} 1>> #{stdout_log_path}
 end script
 EOD
   }
@@ -86,23 +86,23 @@ EOD
       put upstart_file_contents, temp_config_file_path
 
       # Copy the script into place and make executable
-      sudo "cp #{temp_config_file_path} #{upstart_file_path}"
+      "cp #{temp_config_file_path} #{upstart_file_path}"
     end
 
     desc "Start the node application"
     task :start do
-      sudo "start #{upstart_job_name}"
+      "start #{upstart_job_name}"
     end
 
     desc "Stop the node application"
     task :stop do
-      sudo "stop #{upstart_job_name}"
+      "stop #{upstart_job_name}"
     end
 
     desc "Restart the node application"
     task :restart do
-      sudo "stop #{upstart_job_name}; true"
-      sudo "start #{upstart_job_name}"
+      "stop #{upstart_job_name}; true"
+      "start #{upstart_job_name}"
     end
   end
 
